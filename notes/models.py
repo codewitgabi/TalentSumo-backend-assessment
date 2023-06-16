@@ -2,6 +2,10 @@ import uuid
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth import get_user_model
+
+# user object
+User = get_user_model()
 
 
 class Note(models.Model):
@@ -30,5 +34,29 @@ class Note(models.Model):
         super().clean()
     
     def __str__(self):
-        return self.text if self.text else self.file.url
+        return self.text
+
+
+class SharedNote(models.Model):
+    """
+    Stores notes shared amongst users
+    sender: user object sending the note
+    receiver: user object receiving the note
+    note: note instance being sent
+    """
+    id = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        primary_key=True
+    )
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="note_sender")
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="note_receiver")
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    date_sent = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ["-date_sent"]
+    
+    def __str__(self):
+        return str(self.id)
 

@@ -117,6 +117,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom configurations
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
+
 CLOUDINARY = {
     "cloud_name": os.environ.get("CLOUDINARY_CLOUD_NAME"),
     "api_key": os.environ.get("CLOUDINARY_API_KEY"),
