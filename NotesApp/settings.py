@@ -103,6 +103,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+TIME_INPUT_FORMATS = ('%I:%M %p',)
+DATE_INPUT_FORMATS = ("%Y-%m-%d",)
+
 
 # Static files (CSS, JavaScript, Images)
 
